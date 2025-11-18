@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#3B82F6</color>
+    <color name="accent">#FBBF24</color>
+    <color name="bg">#121418</color>
+    <color name="text">#F3F4F6</color>
+    <color name="placeholder">#9CA3AF</color>
+    <color name="button">#3B82F6</color>
+    <color name="icon">#FBBF24</color>
+    <color name="success">#22C55E</color>
+    <color name="fail">#EF4444</color>
+</resources>

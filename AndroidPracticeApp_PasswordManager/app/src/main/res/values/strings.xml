@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">AndroidPracticeApp_PasswordManager</string>
+    <string name="copied_to_clipboard">Password copied</string>
+    <string name="title">Title</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="save">Save</string>
+    <string name="length">Length</string>
+    <string name="password_generation_settings">Password generation settings</string>
+    <string name="use_special_characters">Use special characters</string>
+    <string name="generate">Generate</string>
+    <string name="delete">Delete</string>
+    <string name="createNewCredential">Create new credential</string>
+    <string name="login">Login</string>
+    <string name="createNewUser">Create new user</string>
+    <string name="selectUser">Select user</string>
+    <string name="provideLoginName">Provide a log in display name</string>
+    <string name="provideMasterPassword">Provide a master password for this log in</string>
+    <string name="repeatMasterPassword">Repeat the master password</string>
+    <string name="continueStr">Continue</string>
+    <string name="finish">Finish</string>
+    <string name="setUpLogin">Set up log in information</string>
+</resources>
