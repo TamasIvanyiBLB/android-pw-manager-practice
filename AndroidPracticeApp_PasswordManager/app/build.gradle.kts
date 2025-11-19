@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.hilt.android)
+    implementation(libs.jbcrypt)
     ksp(libs.androidx.room.compiler)
     kapt(libs.hilt.compiler)
     testImplementation(libs.junit)

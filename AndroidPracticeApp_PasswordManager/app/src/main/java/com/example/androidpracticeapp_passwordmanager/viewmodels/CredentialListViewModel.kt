@@ -1,5 +1,6 @@
 package com.example.androidpracticeapp_passwordmanager.viewmodels
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidpracticeapp_passwordmanager.database.useCase.credential.CredentialsUseCases
 import com.example.androidpracticeapp_passwordmanager.mapper.CredentialMapper
+import com.example.androidpracticeapp_passwordmanager.utils.LoginContext
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -16,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CredentialListViewModel @Inject constructor(
     private val credentialsUseCases: CredentialsUseCases,
-    private val credentialMapper: CredentialMapper
+    private val credentialMapper: CredentialMapper,
+    private val loginContext: LoginContext
 ) : ViewModel() {
     private var _credentials: List<CredentialVM> = emptyList()
     private val _credentialsFiltered: MutableState<List<CredentialVM>> = mutableStateOf(emptyList())
@@ -26,7 +29,10 @@ class CredentialListViewModel @Inject constructor(
     val searchText: State<String> = _searchText
 
     init {
-        loadCredentials()
+        if (loginContext.authenticatedLogin != null) {
+            loadCredentials()
+        }
+        Log.d("app",loginContext.authenticatedLogin.toString())
     }
 
     fun onFilterTextChanged(value: String) {
@@ -46,10 +52,11 @@ class CredentialListViewModel @Inject constructor(
     }
 
     private fun loadCredentials() {
-        credentialsUseCases.getCredentials().onEach { credentials ->
-            _credentials = credentials.map { credentialMapper.fromEntity(it) }
-            filterCredentials()
-        }.launchIn(viewModelScope)
+        credentialsUseCases.getCredentials(loginContext.authenticatedLogin!!.id!!)
+            .onEach { credentials ->
+                _credentials = credentials.map { credentialMapper.fromEntity(it) }
+                filterCredentials()
+            }.launchIn(viewModelScope)
     }
 
     private fun filterCredentials() {

@@ -5,7 +5,7 @@ import com.example.androidpracticeapp_passwordmanager.database.source.Credential
 import kotlinx.coroutines.flow.Flow
 
 class GetCredentialsUseCase(private val credentialDao: CredentialDao) {
-    operator fun invoke(): Flow<List<Credential>> {
-        return credentialDao.getCredentials()
+    operator fun invoke(accountId: Int): Flow<List<Credential>> {
+        return credentialDao.getCredentials(accountId)
     }
 }

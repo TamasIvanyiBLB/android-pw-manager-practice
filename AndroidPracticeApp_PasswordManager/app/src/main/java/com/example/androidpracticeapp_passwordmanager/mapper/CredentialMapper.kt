@@ -5,7 +5,7 @@ import com.example.androidpracticeapp_passwordmanager.utils.PasswordUtils
 import com.example.androidpracticeapp_passwordmanager.viewmodels.CredentialVM
 
 class CredentialMapper(
-    val passwordUtils: PasswordUtils
+    val passwordUtils: PasswordUtils,
 ) {
     fun fromEntity(entity: Credential): CredentialVM {
         val decryptedPassword = passwordUtils.decryptPassword(entity.password)
@@ -14,7 +14,8 @@ class CredentialMapper(
             title = entity.title,
             username = entity.username,
             email = entity.email,
-            password = decryptedPassword
+            password = decryptedPassword,
+            accountId = entity.accountId
         )
     }
 
@@ -26,7 +27,8 @@ class CredentialMapper(
             credentialVM.title,
             credentialVM.username,
             credentialVM.email,
-            encryptedPassword
+            encryptedPassword,
+            credentialVM.accountId
         )
     }
 }

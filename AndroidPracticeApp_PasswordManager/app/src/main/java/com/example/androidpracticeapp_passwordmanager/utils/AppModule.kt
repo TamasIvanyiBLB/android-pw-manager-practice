@@ -14,6 +14,7 @@ import com.example.androidpracticeapp_passwordmanager.database.useCase.credentia
 import com.example.androidpracticeapp_passwordmanager.database.useCase.credential.GetCredentialByIdUseCase
 import com.example.androidpracticeapp_passwordmanager.database.useCase.credential.GetCredentialsUseCase
 import com.example.androidpracticeapp_passwordmanager.database.useCase.credential.UpsertCredentialUseCase
+import com.example.androidpracticeapp_passwordmanager.mapper.AccountMapper
 import com.example.androidpracticeapp_passwordmanager.mapper.CredentialMapper
 import dagger.Module
 import dagger.Provides
@@ -74,6 +75,12 @@ object AppModule {
     @Singleton
     fun provideCredentialMapper(passwordUtils: PasswordUtils): CredentialMapper {
         return CredentialMapper(passwordUtils)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAccountMapper(): AccountMapper {
+        return AccountMapper()
     }
 
     @Provides

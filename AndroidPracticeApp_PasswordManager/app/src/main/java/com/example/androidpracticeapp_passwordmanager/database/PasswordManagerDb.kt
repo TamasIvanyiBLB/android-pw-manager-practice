@@ -7,7 +7,7 @@ import com.example.androidpracticeapp_passwordmanager.database.model.Credential
 import com.example.androidpracticeapp_passwordmanager.database.source.AccountDao
 import com.example.androidpracticeapp_passwordmanager.database.source.CredentialDao
 
-@Database(entities = [Credential::class, Account::class], version = 2)
+@Database(entities = [Credential::class, Account::class], version = 1)
 abstract class PasswordManagerDb : RoomDatabase() {
 
     abstract val credentialDao: CredentialDao

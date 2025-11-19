@@ -1,5 +1,6 @@
 package com.example.androidpracticeapp_passwordmanager.viewmodels
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidpracticeapp_passwordmanager.database.useCase.account.AccountsUseCases
 import com.example.androidpracticeapp_passwordmanager.mapper.AccountMapper
+import com.example.androidpracticeapp_passwordmanager.utils.LoginContext
 import com.example.androidpracticeapp_passwordmanager.utils.PasswordUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
@@ -18,13 +20,17 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val passwordUtils: PasswordUtils,
     private val accountsUseCases: AccountsUseCases,
-    private val accountMapper: AccountMapper
+    private val accountMapper: AccountMapper,
+    private val loginContext: LoginContext
 ) : ViewModel() {
     private val _accountDropDownEnabled = mutableStateOf(false)
     val accountDropDownEnabled: State<Boolean> = _accountDropDownEnabled
 
     private val _canLogIn = mutableStateOf(false)
     val canLogIn: State<Boolean> = _canLogIn
+
+    private val _errorText: MutableState<String?> = mutableStateOf(null)
+    val errorText: State<String?> = _errorText
 
     private val _masterPasswordInput = mutableStateOf("")
     val masterPasswordInput: State<String> = _masterPasswordInput
@@ -57,10 +63,22 @@ class LoginViewModel @Inject constructor(
         setCanLogIn()
     }
 
-    fun tryLogin() {
-        if (_canLogIn.value) {
-
+    fun tryLogin(invalidPasswordText: String): Boolean {
+        if (_canLogIn.value && loginContext.tryAuthenticate(
+                accountMapper.toEntity(selectedLogin.value!!),
+                _masterPasswordInput.value
+            )
+        ) {
+            Log.d("app", loginContext.authenticatedLogin.toString())
+            return true
+        } else {
+            _errorText.value = invalidPasswordText
+            return false
         }
+    }
+
+    fun clearErrorText() {
+        _errorText.value = null
     }
 
     private fun setCanLogIn() {

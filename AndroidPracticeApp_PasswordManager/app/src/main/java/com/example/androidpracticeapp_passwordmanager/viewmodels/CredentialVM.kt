@@ -5,5 +5,6 @@ data class CredentialVM(
     var title: String,
     var username: String?,
     var email: String?,
-    var password: String
+    var password: String,
+    var accountId: Int
 )

@@ -8,5 +8,5 @@ import com.example.androidpracticeapp_passwordmanager.database.DatabaseString
 data class Account(
     @PrimaryKey(autoGenerate = true) val id: Int? = null,
     val login: String,
-    val password: String
+    val password: String,
 )

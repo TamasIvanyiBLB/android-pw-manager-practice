@@ -1,5 +1,6 @@
 package com.example.androidpracticeapp_passwordmanager.viewmodels
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -8,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.androidpracticeapp_passwordmanager.database.useCase.credential.CredentialsUseCases
 import com.example.androidpracticeapp_passwordmanager.mapper.CredentialMapper
+import com.example.androidpracticeapp_passwordmanager.utils.LoginContext
 import com.example.androidpracticeapp_passwordmanager.utils.NavArgs
 import com.example.androidpracticeapp_passwordmanager.utils.PasswordUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,16 +21,21 @@ class CredentialCreateEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val passwordUtils: PasswordUtils,
     private val credentialsUseCases: CredentialsUseCases,
-    private val credentialMapper: CredentialMapper
+    private val credentialMapper: CredentialMapper,
+    private val loginContext: LoginContext
 ) : ViewModel() {
     private var _passwordLength: Int = 0
     private val _formUIState = mutableStateOf(CredentialUIStateVM())
     val formUIState: State<CredentialUIStateVM> = _formUIState
-    private val _credential: MutableState<CredentialVM> = mutableStateOf(createNewCredential())
+    private val _credential: MutableState<CredentialVM?> = mutableStateOf(null)
 
     init {
-        val credentialId = savedStateHandle.get<String>(NavArgs.CREDENTIAL_ID)?.toIntOrNull() ?: -1
-        loadCredential(credentialId)
+        Log.d("app", loginContext.authenticatedLogin.toString())
+        if (loginContext.authenticatedLogin != null) {
+            val credentialId =
+                savedStateHandle.get<String>(NavArgs.CREDENTIAL_ID)?.toIntOrNull() ?: -1
+            loadCredential(credentialId)
+        }
     }
 
 
@@ -68,8 +75,8 @@ class CredentialCreateEditViewModel @Inject constructor(
     }
 
     fun onSave() {
-        val updated = _credential.value.copy(
-            id = _credential.value.id,
+        val updated = _credential.value?.copy(
+            id = _credential.value?.id ?: -1,
             title = _formUIState.value.title,
             username = _formUIState.value.username,
             email = _formUIState.value.email,
@@ -77,10 +84,11 @@ class CredentialCreateEditViewModel @Inject constructor(
         )
         _credential.value = updated
 
-        viewModelScope.launch {
-            credentialsUseCases.upsertCredential(credentialMapper.toEntity(_credential.value))
+        if (_credential.value != null) {
+            viewModelScope.launch {
+                credentialsUseCases.upsertCredential(credentialMapper.toEntity(_credential.value!!))
+            }
         }
-
     }
 
     private fun loadCredential(credentialId: Int) {
@@ -88,6 +96,9 @@ class CredentialCreateEditViewModel @Inject constructor(
             val result = credentialsUseCases.getCredentialById(credentialId)
             if (result != null) {
                 _credential.value = credentialMapper.fromEntity(result)
+            } else {
+                _credential.value =
+                    CredentialVM(-1, "", null, null, "", loginContext.authenticatedLogin!!.id!!)
             }
             initFormUIState()
         }
@@ -95,14 +106,14 @@ class CredentialCreateEditViewModel @Inject constructor(
 
     private fun initFormUIState() {
         _formUIState.value = _formUIState.value.copy(
-            title = _credential.value.title,
-            username = _credential.value.username,
-            email = _credential.value.email,
-            password = _credential.value.password,
+            title = _credential.value?.title ?: "",
+            username = _credential.value?.username,
+            email = _credential.value?.email,
+            password = _credential.value?.password ?: "",
         )
     }
 
     private fun createNewCredential(): CredentialVM {
-        return CredentialVM(-1, "", null, null, "")
+        return CredentialVM(-1, "", null, null, "", loginContext.authenticatedLogin!!.id!!)
     }
 }

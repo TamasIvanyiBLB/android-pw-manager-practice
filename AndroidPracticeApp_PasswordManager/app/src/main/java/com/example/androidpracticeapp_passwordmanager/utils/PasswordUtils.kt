@@ -1,5 +1,6 @@
 package com.example.androidpracticeapp_passwordmanager.utils
 
+import org.mindrot.jbcrypt.BCrypt
 import java.security.KeyStore
 import java.util.Base64
 import javax.crypto.Cipher
@@ -30,6 +31,14 @@ class PasswordUtils(val keyGen: KeyGen) {
             .joinToString("")
     }
 
+    fun hashPassword(password: String): String {
+        return BCrypt.hashpw(password, BCrypt.gensalt())
+    }
+
+    fun comparePassword(hash: String, password: String): Boolean {
+        return BCrypt.checkpw(password, hash)
+    }
+
     fun encryptPassword(password: String): String {
         if (password.isEmpty()) {
             return ""
@@ -54,11 +63,7 @@ class PasswordUtils(val keyGen: KeyGen) {
         cipher?.init(Cipher.DECRYPT_MODE, getSecret(), spec)
 
         val encryptedBytes = Base64.getDecoder().decode(encryptedBase64)
-        val decrypted = cipher?.doFinal(encryptedBytes)
-
-        if (decrypted == null) {
-            return ""
-        }
+        val decrypted = cipher?.doFinal(encryptedBytes) ?: return ""
 
         return String(decrypted, Charsets.UTF_8)
     }

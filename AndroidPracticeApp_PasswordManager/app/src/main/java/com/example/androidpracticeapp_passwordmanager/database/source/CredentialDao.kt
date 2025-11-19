@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CredentialDao {
 
-    @Query("SELECT * FROM ${DatabaseString.TABLE_NAME_CREDENTIAL}")
-    fun getCredentials(): Flow<List<Credential>>
+    @Query("SELECT * FROM ${DatabaseString.TABLE_NAME_CREDENTIAL} WHERE ${DatabaseString.COLUMN_ACCOUNT_ID}=:accountId")
+    fun getCredentials(accountId: Int): Flow<List<Credential>>
 
     @Query("SELECT * FROM ${DatabaseString.TABLE_NAME_CREDENTIAL} WHERE ${DatabaseString.COLUMN_ID} = :id")
     suspend fun getCredentialById(id: Int): Credential?

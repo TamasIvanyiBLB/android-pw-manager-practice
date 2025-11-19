@@ -18,7 +18,15 @@
     <string name="provideLoginName">Provide a log in display name</string>
     <string name="provideMasterPassword">Provide a master password for this log in</string>
     <string name="repeatMasterPassword">Repeat the master password</string>
+    <string name="passwordMisMatch">The given passwords did not match</string>
+    <string name="mustProvideLoginName">You must provide a login name</string>
+    <string name="mustProvidePassword">You must provide a password</string>
+    <string name="loginNameExists">Login name already exists</string>
+    <string name="invalidPasswordLength">Password must be at least %d in length</string>
     <string name="continueStr">Continue</string>
     <string name="finish">Finish</string>
     <string name="setUpLogin">Set up log in information</string>
+    <string name="error">Error</string>
+    <string name="ok">Ok</string>
+    <string name="invalidPassword">Invalid password</string>
 </resources>

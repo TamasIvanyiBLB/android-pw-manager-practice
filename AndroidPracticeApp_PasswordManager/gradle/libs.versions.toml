@@ -15,6 +15,7 @@ roomVersion = "2.8.3"
 kspVersion = "2.1.0-1.0.28"
 hiltVersion = "2.57"
 hiltNavigationVersion = "1.2.0"
+bcryptVersion = "0.4"
 
 
 [libraries]
@@ -43,6 +44,7 @@ material-icons-extended = { module = "androidx.compose.material:material-icons-e
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hiltVersion" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hiltVersion" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationVersion" }
+jbcrypt = { group = "org.mindrot", name = "jbcrypt", version.ref = "bcryptVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
