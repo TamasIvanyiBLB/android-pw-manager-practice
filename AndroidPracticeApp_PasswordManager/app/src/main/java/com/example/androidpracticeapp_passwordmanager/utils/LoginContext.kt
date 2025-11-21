@@ -15,6 +15,13 @@ class LoginContext(val passwordUtils: PasswordUtils) {
         return false
     }
 
+    fun updatePassword(hash: String) {
+        if (_authenticatedLogin == null) {
+            return
+        }
+        _authenticatedLogin = _authenticatedLogin!!.copy(password = hash)
+    }
+
     fun logOut() {
         _authenticatedLogin = null
     }

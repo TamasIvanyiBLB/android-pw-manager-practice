@@ -16,7 +16,7 @@
     <string name="createNewUser">Create new user</string>
     <string name="selectUser">Select user</string>
     <string name="provideLoginName">Provide a log in display name</string>
-    <string name="provideMasterPassword">Provide a master password for this log in</string>
+    <string name="provideMasterPassword">Provide a master password</string>
     <string name="repeatMasterPassword">Repeat the master password</string>
     <string name="passwordMisMatch">The given passwords did not match</string>
     <string name="mustProvideLoginName">You must provide a login name</string>
@@ -29,4 +29,24 @@
     <string name="error">Error</string>
     <string name="ok">Ok</string>
     <string name="invalidPassword">Invalid password</string>
+    <string name="credentialList">Credential list</string>
+    <string name="profile">Profile</string>
+    <string name="changePassword">Change password</string>
+    <string name="logOut">Log out</string>
+    <string name="deleteProfile">Delete profile</string>
+    <string name="oldPassword">Old password</string>
+    <string name="newPassword">New password</string>
+    <string name="repeatNewPassword">Repeat new password</string>
+    <string name="mustProvideOldPassword">You must provide the old password</string>
+    <string name="mustProvideNewPassword">You must provide a new password</string>
+    <string name="mustRepeatNewPassword">You must repeat the new password</string>
+    <string name="oldPasswordIncorrect">Your old password provided is incorrect</string>
+    <string name="cancel">Cancel</string>
+    <string name="passwordUpdated">Password updated</string>
+    <string name="warning">Warning</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="areYouSureToDeleteCredential">Are you sure to delete this credential?</string>
+    <string name="areYouSureToDeleteProfile">Are you sure to delete the profile? All associated credentials will be lost.</string>
+    <string name="createNewProfile">Create new profile.</string>
 </resources>

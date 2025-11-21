@@ -112,8 +112,4 @@ class CredentialCreateEditViewModel @Inject constructor(
             password = _credential.value?.password ?: "",
         )
     }
-
-    private fun createNewCredential(): CredentialVM {
-        return CredentialVM(-1, "", null, null, "", loginContext.authenticatedLogin!!.id!!)
-    }
 }

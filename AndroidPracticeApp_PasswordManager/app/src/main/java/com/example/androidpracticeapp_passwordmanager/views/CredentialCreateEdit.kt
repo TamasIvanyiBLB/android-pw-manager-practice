@@ -148,7 +148,7 @@ fun CredentialCreateEdit(
                 ElevatedButton(
                     onClick = {
                         vm.onSave()
-                        navController.navigate(Screen.CredentialsListScreen.route)
+                        navController.navigate(Screen.MainContentScreen.route)
                     }, colors = ButtonDefaults.elevatedButtonColors(
                         containerColor = colorResource(R.color.button)
                     )

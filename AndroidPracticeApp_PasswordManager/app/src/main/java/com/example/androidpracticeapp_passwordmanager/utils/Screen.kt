@@ -4,7 +4,7 @@ sealed class Screen(val route: String) {
 
     data object CreateLoginScreen : Screen(NavRoutes.CREATE_LOGIN_SCREEN)
     data object LoginScreen : Screen(NavRoutes.LOGIN_SCREEN)
-    data object CredentialsListScreen : Screen(NavRoutes.CREDENTIAL_LIST_SCREEN)
+    data object MainContentScreen : Screen(NavRoutes.MAIN_CONTENT_SCREEN)
     data object CredentialCreateEditScreen :
         Screen("${NavRoutes.CREDENTIAL_CREATE_EDIT_SCREEN}?${NavArgs.CREDENTIAL_ID}={${NavArgs.CREDENTIAL_ID}}") {
 

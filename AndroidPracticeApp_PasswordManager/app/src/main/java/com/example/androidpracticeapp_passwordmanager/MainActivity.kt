@@ -15,13 +15,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.androidpracticeapp_passwordmanager.ui.theme.AndroidPracticeApp_PasswordManagerTheme
+import com.example.androidpracticeapp_passwordmanager.utils.AutoLogoutObserver
 import com.example.androidpracticeapp_passwordmanager.utils.NavArgs
 import com.example.androidpracticeapp_passwordmanager.utils.Screen
 import com.example.androidpracticeapp_passwordmanager.viewmodels.MainViewModel
 import com.example.androidpracticeapp_passwordmanager.views.CreateLogin
 import com.example.androidpracticeapp_passwordmanager.views.CredentialCreateEdit
-import com.example.androidpracticeapp_passwordmanager.views.CredentialList
 import com.example.androidpracticeapp_passwordmanager.views.Login
+import com.example.androidpracticeapp_passwordmanager.views.MainContent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,6 +36,15 @@ class MainActivity() : ComponentActivity() {
 
                     val navController = rememberNavController()
                     val vm = hiltViewModel<MainViewModel>()
+
+                    lifecycle.addObserver(
+                        AutoLogoutObserver(
+                            {
+                                vm.logout({
+                                    navController.navigate(if (vm.hasLoginSetup.value) Screen.LoginScreen.route else Screen.CreateLoginScreen.route)
+                                })
+                            }
+                        ))
                     NavHost(
                         navController = navController,
                         startDestination = if (vm.hasLoginSetup.value) Screen.LoginScreen.route else Screen.CreateLoginScreen.route,
@@ -48,9 +58,9 @@ class MainActivity() : ComponentActivity() {
                         {
                             Login(navController)
                         }
-                        composable(route = Screen.CredentialsListScreen.route) {
+                        composable(route = Screen.MainContentScreen.route) {
 
-                            CredentialList(navController)
+                            MainContent(navController)
                         }
                         composable(
                             route = Screen.CredentialCreateEditScreen.route,

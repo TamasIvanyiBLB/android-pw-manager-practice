@@ -1,5 +1,6 @@
 package com.example.androidpracticeapp_passwordmanager.views
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,45 +28,54 @@ import com.example.androidpracticeapp_passwordmanager.viewmodels.CredentialListV
 
 @Composable
 fun CredentialList(navController: NavController, vm: CredentialListViewModel = hiltViewModel()) {
-    Column {
-        SearchBar(
-            vm.searchText.value,
-            callback = { value -> vm.onFilterTextChanged(value) },
-            modifier = Modifier.padding(top = 20.dp)
-        )
-        ElevatedButton(
-            onClick = {
-                navController.navigate(
-                    Screen.CredentialCreateEditScreen.createRoute(
-                        null
-                    )
-                )
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 20.dp)
-                .padding(horizontal = 10.dp),
-            colors = ButtonDefaults.elevatedButtonColors(containerColor = colorResource(R.color.button))
-        ) {
-            Text(
-                stringResource(R.string.createNewCredential),
-                color = Color.White,
-                style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+    Box {
+        Column {
+            SearchBar(
+                vm.searchText.value,
+                callback = { value -> vm.onFilterTextChanged(value) },
+                modifier = Modifier.padding(top = 20.dp)
             )
-        }
-        LazyColumn {
-
-            items(vm.credentialsFiltered.value, key = { it.id }) { credential ->
-                Column {
-                    HorizontalDivider(Modifier, 10.dp, color = Color.Transparent)
-                    CredentialDisplayItem(
-                        CredentialDisplayItemViewModel(credential),
-                        navController,
-                        deleteCredentialCallback = { cred -> vm.deleteDropDownItem(cred) }
+            ElevatedButton(
+                onClick = {
+                    navController.navigate(
+                        Screen.CredentialCreateEditScreen.createRoute(
+                            null
+                        )
                     )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp)
+                    .padding(horizontal = 10.dp),
+                colors = ButtonDefaults.elevatedButtonColors(containerColor = colorResource(R.color.button))
+            ) {
+                Text(
+                    stringResource(R.string.createNewCredential),
+                    color = Color.White,
+                    style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+                )
+            }
+            LazyColumn {
+                items(vm.credentialsFiltered.value, key = { it.id }) { credential ->
+                    Column {
+                        HorizontalDivider(Modifier, 10.dp, color = Color.Transparent)
+                        CredentialDisplayItem(
+                            CredentialDisplayItemViewModel(credential),
+                            navController,
+                            deleteCredentialCallback = { cred -> vm.setUpItemForDeletion(cred) }
+                        )
+                    }
                 }
+
             }
 
+        }
+
+        if (vm.credentialToDelete.value != null) {
+            ConfirmDialog(
+                stringResource(R.string.areYouSureToDeleteCredential),
+                { vm.deleteDropDownItem(vm.credentialToDelete.value!!) },
+                onCancel = { (vm.setUpItemForDeletion()) })
         }
     }
 }

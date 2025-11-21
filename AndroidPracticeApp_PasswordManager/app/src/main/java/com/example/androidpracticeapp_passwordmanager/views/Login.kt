@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -51,7 +50,7 @@ fun LoginPreview() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Login(navController: NavController, vm: LoginViewModel = hiltViewModel()) {
-    Box() {
+    Box {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -66,8 +65,8 @@ fun Login(navController: NavController, vm: LoginViewModel = hiltViewModel()) {
                     .background(Color.Transparent)
             ) {
                 OutlinedTextField(
-                    value = vm.selectedLogin.value?.login?:"",
-                    onValueChange ={ },
+                    value = vm.selectedLogin.value?.login ?: "",
+                    onValueChange = { },
                     label = {
                         Text(
                             stringResource(R.string.selectUser),
@@ -122,7 +121,9 @@ fun Login(navController: NavController, vm: LoginViewModel = hiltViewModel()) {
 
 
             OutlinedTextField(
-                vm.masterPasswordInput.value, onValueChange = {vm.updateMasterPassword(it)}, modifier = Modifier.fillMaxWidth(),
+                vm.masterPasswordInput.value,
+                onValueChange = { vm.updateMasterPassword(it) },
+                modifier = Modifier.fillMaxWidth(),
                 placeholder = {
                     Text(
                         stringResource(R.string.password),
@@ -134,7 +135,8 @@ fun Login(navController: NavController, vm: LoginViewModel = hiltViewModel()) {
                     color = colorResource(R.color.text),
                     fontSize = 16.sp,
                     textAlign = TextAlign.Left
-                ), colors = OutlinedTextFieldDefaults.colors(
+                ),
+                colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = colorResource(R.color.primary),
                     unfocusedBorderColor = colorResource(R.color.text)
                 )
@@ -142,9 +144,9 @@ fun Login(navController: NavController, vm: LoginViewModel = hiltViewModel()) {
             val invalidPasswordText = stringResource(R.string.invalidPassword)
             ElevatedButton(
                 onClick = {
-                    if(vm.tryLogin(invalidPasswordText)){
+                    if (vm.tryLogin(invalidPasswordText)) {
                         navController.navigate(
-                            Screen.CredentialsListScreen.route
+                            Screen.MainContentScreen.route
                         )
                     }
                 },
@@ -173,15 +175,15 @@ fun Login(navController: NavController, vm: LoginViewModel = hiltViewModel()) {
                 colors = ButtonDefaults.elevatedButtonColors(containerColor = colorResource(R.color.accent))
             ) {
                 Text(
-                    stringResource(R.string.createNewCredential),
+                    stringResource(R.string.createNewProfile),
                     color = colorResource(R.color.text),
                     style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
                 )
             }
         }
 
-        if(!vm.errorText.value.isNullOrEmpty()){
-            ErrorDialog(vm.errorText.value?:"") { vm.clearErrorText() }
+        if (!vm.errorText.value.isNullOrEmpty()) {
+            ErrorDialog(vm.errorText.value ?: "") { vm.clearErrorText() }
         }
     }
 }

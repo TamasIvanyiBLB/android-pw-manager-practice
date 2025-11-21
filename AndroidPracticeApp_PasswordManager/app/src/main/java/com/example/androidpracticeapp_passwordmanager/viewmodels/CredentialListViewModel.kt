@@ -25,6 +25,9 @@ class CredentialListViewModel @Inject constructor(
     private val _credentialsFiltered: MutableState<List<CredentialVM>> = mutableStateOf(emptyList())
     val credentialsFiltered: State<List<CredentialVM>> = _credentialsFiltered
 
+    private val _credentialToDelete: MutableState<CredentialVM?> = mutableStateOf(null)
+    val credentialToDelete: State<CredentialVM?> = _credentialToDelete
+
     private val _searchText: MutableState<String> = mutableStateOf("")
     val searchText: State<String> = _searchText
 
@@ -32,7 +35,7 @@ class CredentialListViewModel @Inject constructor(
         if (loginContext.authenticatedLogin != null) {
             loadCredentials()
         }
-        Log.d("app",loginContext.authenticatedLogin.toString())
+        Log.d("app", loginContext.authenticatedLogin.toString())
     }
 
     fun onFilterTextChanged(value: String) {
@@ -47,8 +50,13 @@ class CredentialListViewModel @Inject constructor(
                 credentialMapper.toEntity(credential)
             )
             _credentials = _credentials.filter { it.id != credential.id }
+            setUpItemForDeletion()
             filterCredentials()
         }
+    }
+
+    fun setUpItemForDeletion(credential: CredentialVM? = null) {
+        _credentialToDelete.value = credential
     }
 
     private fun loadCredentials() {

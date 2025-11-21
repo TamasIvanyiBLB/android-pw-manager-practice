@@ -88,6 +88,7 @@ class LoginViewModel @Inject constructor(
     private fun loadAccounts() {
         accountsUseCases.getAccounts().onEach { accounts ->
             _logins.value = accounts.map { accountMapper.fromEntity(it) }
+            _selectedLogin.value = _logins.value.firstOrNull()
         }.launchIn(viewModelScope)
     }
 }
